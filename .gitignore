@@ -216,3 +216,76 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ---------------------------------------------------------------------------
+# Node.js / Express
+# ---------------------------------------------------------------------------
+
+# Dependencies - reproducible from package-lock.json, never commit
+node_modules/
+jspm_packages/
+web_modules/
+.pnp
+.pnp.*
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# Lockfiles ARE committed - do not add package-lock.json here.
+# npm ci requires it and fails the Docker build without it.
+
+# npm / yarn / pnpm logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.npm
+.yarn-integrity
+
+# Build output
+dist/
+out/
+.next/
+.nuxt/
+.svelte-kit/
+.parcel-cache/
+.cache/
+*.tsbuildinfo
+
+# Test / coverage
+coverage/
+*.lcov
+.nyc_output/
+
+# Runtime
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Env files - never commit secrets
+.env
+.env.*
+!.env.example
+
+# Node version managers
+.node_repl_history
+.nvmrc.local
+
+# ---------------------------------------------------------------------------
+# Docker
+# ---------------------------------------------------------------------------
+docker-compose.override.yml
+
+# ---------------------------------------------------------------------------
+# macOS / editors
+# ---------------------------------------------------------------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+Thumbs.db
+*.swp
+*.swo

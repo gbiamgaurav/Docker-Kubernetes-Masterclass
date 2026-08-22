@@ -1,0 +1,16 @@
+# Host-built dependencies - reinstalled inside the image by `npm ci`.
+# Copying macOS/arm64 native modules into a Linux image breaks them.
+node_modules
+npm-debug.log*
+
+# Not needed at runtime
+.git
+.gitignore
+Dockerfile
+.dockerignore
+readme.md
+*.md
+
+# Never ship secrets
+.env
+.env.*
