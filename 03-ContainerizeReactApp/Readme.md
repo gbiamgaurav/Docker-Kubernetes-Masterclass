@@ -126,3 +126,47 @@ docker builder prune
 
 Container first - `rmi` fails with `must be forced` while a container references
 the image. Multi-stage builds leave large intermediate layers in the cache.
+
+## Clear all images
+
+The commands above are scoped to this project. These are not - they hit every
+image on the machine, including ones unrelated to this repo.
+
+```bash
+docker image prune -a
+```
+
+Removes every image not referenced by a container. This is the one to reach for:
+running containers keep their images, so an active stack survives.
+
+`Total reclaimed space: 0B` does not mean nothing was removed. Tags sharing
+every layer with an image that survives - `react-app-test` next to
+`react-app:nginx` from the same build - free no bytes when dropped.
+
+```bash
+docker rm -f $(docker ps -aq)
+docker rmi -f $(docker images -aq)
+```
+
+Containers first, then images. `-f` on `rmi` forces past *stopped* containers
+only - a running one still wins:
+
+```
+Error response from daemon: conflict: unable to delete 41cb3402dde4
+(cannot be forced) - image is being used by running container b4ba088940da
+```
+
+`docker rm -f` is what stops it. On `images`, `-a` includes intermediate and
+dangling layers, `-q` reduces the list to IDs. With nothing to delete the
+substitution is empty and docker reports `"rmi" requires at least 1 argument`.
+
+```bash
+docker system prune -a --volumes
+```
+
+Images, stopped containers, networks, build cache, and named volumes. `--volumes`
+discards database contents and anything else persisted outside a container.
+
+Everything cleared here is re-pulled or rebuilt on the next `docker build` -
+`node:22-alpine` and `nginx:1.27.0` come down from the registry again, and the
+layer cache starts cold.
