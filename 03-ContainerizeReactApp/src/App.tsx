@@ -18,7 +18,7 @@ function App() {
         <div>
           <h1>Get started</h1>
           <p>
-            Hey, There! My name is Gaurav and this is my first React Docker Development
+            Adi will go to School from tomorrow
           </p>
         </div>
         <button
